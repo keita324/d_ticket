@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <title>興行詳細｜d ticket 改善提案デモ</title>
+  <meta name="description" content="興行ごとの全公演・全日程を一覧で比較できる詳細ページのデモです。">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#000000">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="wrap">
+      <a class="logo" href="index.html">
+        <span class="d">d</span><span class="rest">&nbsp;ticket</span>
+        <span class="demo-tag">改善提案デモ</span>
+      </a>
+      <nav class="header-nav">
+        <a href="index.html#events">イベントを探す</a>
+        <span class="dpoint">dポイント <b>2,450</b> pt</span>
+        <button class="mypage-btn" type="button">マイページ</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 興行ヒーロー -->
+  <div class="detail-hero" id="detail-hero">
+    <div class="wrap">
+      <p class="breadcrumb"><a href="index.html">トップ</a> &nbsp;&#8250;&nbsp; <span id="bc-genre"></span></p>
+      <span class="detail-genre" id="detail-genre"></span>
+      <h1 id="detail-title"></h1>
+      <p class="artist" id="detail-artist"></p>
+      <div class="detail-summary" id="detail-summary"></div>
+    </div>
+  </div>
+
+  <div class="detail-body">
+    <div class="wrap">
+      <p class="detail-desc" id="detail-desc"></p>
+      <div class="detail-grid">
+        <div>
+          <!-- 改善② 全公演一覧 / 改善③ 受付状況 -->
+          <div class="section-head" data-point="改善② 同じ興行の全日程をここで比較できる">
+            <h2>公演日程をえらぶ</h2>
+            <span class="sub">押せるボタンはひと目でわかる</span>
+          </div>
+          <div class="perf-list" id="perf-list" data-point="改善③ 受付中／受付前／終了 を明示（現状：押すとエラー）"></div>
+        </div>
+
+        <aside>
+          <div class="side-card">
+            <h3>チケット料金</h3>
+            <div id="price-list"></div>
+            <p class="point-note">&#128176; d払いなら <b>dポイント5%還元</b>（デモ表示）</p>
+          </div>
+          <div class="side-card">
+            <h3>受付について</h3>
+            <ul id="sale-info"></ul>
+          </div>
+        </aside>
+      </div>
+
+      <!-- 改善④ 関連レコメンド -->
+      <section class="section">
+        <div class="section-head" data-point="改善④ 興行ページにも「次のおすすめ」を表示">
+          <h2>この興行が気になるあなたへ</h2>
+          <span class="sub">同じジャンル・近いエリアの興行</span>
+        </div>
+        <div class="event-grid" id="related-grid"></div>
+      </section>
+    </div>
+  </div>
+
+  <!-- モバイル固定CTA -->
+  <div class="sticky-cta" id="sticky-cta">
+    <span class="info"><b id="cta-title"></b><span id="cta-note"></span></span>
+    <button class="buy-btn onsale" id="cta-btn" type="button">申込む</button>
+  </div>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p class="disclaimer">
+        本サイトは d ticket のUI改善を提案するための<b>デモンストレーション</b>です。
+        掲載しているイベント・アーティスト・価格・ポイント数はすべて架空であり、実際のサービスとは関係ありません。
+      </p>
+      <p class="copy">d ticket 改善提案デモ ／ 作成：室谷佳汰</p>
+    </div>
+  </footer>
+
+  <button class="points-toggle" id="points-toggle" type="button">&#128161; 改善ポイントを表示</button>
+
+  <script src="js/data.js"></script>
+  <script src="js/event.js"></script>
+</body>
+</html>
