@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <title>d ticket｜改善提案デモ</title>
-  <meta name="description" content="d ticket UI改善提案のデモサイト。検索・絞り込み、興行ごとのページ、受付状況の明示、サイト内レコメンドを実装したプロトタイプです。">
+  <meta name="description" content="d ticket UI改善提案のデモサイト。検索・絞り込み、興行ごとのページ、発売状況の明示、サイト内レコメンドを実装したプロトタイプです。">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#000000">
+  <meta name="theme-color" content="#0abab5">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
@@ -16,32 +16,33 @@
   <header class="site-header">
     <div class="wrap">
       <a class="logo" href="index.html">
-        <span class="d">d</span><span class="rest">&nbsp;ticket</span>
+        d&nbsp;ticket
         <span class="demo-tag">改善提案デモ</span>
       </a>
       <nav class="header-nav">
-        <a href="#events">イベントを探す</a>
+        <a href="#events">イベントをさがす</a>
         <a href="#recommend">あなたへのおすすめ</a>
         <span class="dpoint">dポイント <b>2,450</b> pt</span>
-        <button class="mypage-btn" type="button">マイページ</button>
+        <button class="login-btn" type="button">ログイン</button>
       </nav>
     </div>
   </header>
 
-  <div class="hero">
-    <div class="wrap">
-      <h1>推しに、すぐ届く。</h1>
-      <p>NTTドコモ公式チケットサービス。電子チケット・リセール・dポイントがたまる、つかえる。</p>
-    </div>
-  </div>
-
   <div class="wrap">
+    <div class="page-bar">
+      <h1>イベントをさがす</h1>
+      <p>NTTドコモ公式チケットサービス</p>
+    </div>
+
+    <!-- 注目興行 -->
+    <div id="featured"></div>
+
     <!-- 改善① 検索・絞り込み -->
     <div class="search-panel" data-point="改善① 検索・絞り込み（現状：機能なし）">
       <div class="search-row">
         <div class="search-box">
           <span class="icon">&#128269;</span>
-          <input id="keyword" type="search" placeholder="アーティスト名・イベント名で検索" autocomplete="off">
+          <input id="keyword" type="search" placeholder="イベント名・アーティスト名で検索" autocomplete="off">
         </div>
         <select id="region-select">
           <option value="">エリア：すべて</option>
@@ -52,12 +53,11 @@
       </div>
       <div class="chip-row">
         <span class="label">ジャンル</span>
-        <!-- chips はJSで生成 -->
         <span id="genre-chips" style="display:contents"></span>
-        <label class="toggle-onsale" data-point="改善③ 受付中だけに絞れる">
+        <label class="toggle-onsale" data-point="改善③ 発売中だけに絞れる">
           <input id="onsale-only" type="checkbox">
           <span class="switch"></span>
-          受付中のみ表示
+          発売中のみ表示
         </label>
       </div>
     </div>
@@ -70,7 +70,7 @@
     <!-- 改善② 興行単位の一覧 -->
     <section class="section" id="events">
       <div class="section-head" data-point="改善② 日時順の羅列 → 興行単位のカードに">
-        <h2>イベントをさがす</h2>
+        <h2>開催予定のイベント</h2>
         <span class="sub">同じ興行の公演は1つにまとめて表示。日程の比較は興行ページで</span>
       </div>
       <div class="event-grid" id="event-grid"></div>
@@ -86,7 +86,7 @@
     <div class="wrap">
       <div class="recommend-head" data-point="改善④ レコメンドをメール限定 → サイト内に">
         <h2>&#10024; あなたへのおすすめ</h2>
-        <span class="why">閲覧履歴と<b>d経済圏の利用データ</b>からご提案（デモでは音楽ライブ好きの想定）</span>
+        <span class="why">閲覧履歴と<b>d経済圏の利用データ</b>からご提案（デモでは音楽・フェス好きの想定）</span>
       </div>
       <div class="recommend-strip" id="recommend-strip"></div>
     </div>
@@ -101,8 +101,9 @@
         <a href="#">お問い合わせ</a>
       </div>
       <p class="disclaimer">
-        本サイトは d ticket のUI改善を提案するための<b>デモンストレーション</b>です。
-        掲載しているイベント・アーティスト・価格・ポイント数はすべて架空であり、実際のサービスとは関係ありません。
+        本サイトは d ticket のUI改善を提案するための<b>社内デモンストレーション</b>です。
+        実イベント4件（TGC各公演・びわ湖大花火大会）の情報・画像は d ticket 公式サイトを参照しています。
+        その他のイベント・価格・ポイント数は機能説明用の架空のものです。
       </p>
       <p class="copy">d ticket 改善提案デモ ／ 作成：室谷佳汰</p>
     </div>

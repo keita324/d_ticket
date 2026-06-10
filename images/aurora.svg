@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="'Noto Sans JP','Hiragino Sans',sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1a0b3d"/>
+      <stop offset=".55" stop-color="#3d1160"/>
+      <stop offset="1" stop-color="#0b1e4a"/>
+    </linearGradient>
+    <linearGradient id="aurora1" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#0abab5" stop-opacity="0"/>
+      <stop offset=".5" stop-color="#0abab5" stop-opacity=".55"/>
+      <stop offset="1" stop-color="#7ef0c0" stop-opacity=".15"/>
+    </linearGradient>
+    <linearGradient id="aurora2" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#cb0a39" stop-opacity="0"/>
+      <stop offset=".6" stop-color="#e3548f" stop-opacity=".4"/>
+      <stop offset="1" stop-color="#ffb3d1" stop-opacity=".1"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <path d="M-50 420 C150 240 280 360 420 200 S700 160 850 40 L850 -20 L-50 -20 Z" fill="url(#aurora1)"/>
+  <path d="M-50 470 C200 330 360 420 520 280 S760 240 850 140 L850 80 C700 200 560 180 420 300 S150 380 -50 500 Z" fill="url(#aurora2)"/>
+  <g fill="#fff">
+    <circle cx="90" cy="70" r="2"/><circle cx="180" cy="40" r="1.5"/><circle cx="300" cy="90" r="2"/>
+    <circle cx="430" cy="50" r="1.5"/><circle cx="560" cy="100" r="2"/><circle cx="660" cy="60" r="1.5"/>
+    <circle cx="730" cy="120" r="2"/><circle cx="120" cy="150" r="1.5"/><circle cx="250" cy="170" r="1.5"/>
+    <circle cx="510" cy="160" r="1.5"/><circle cx="620" cy="200" r="2"/><circle cx="70" cy="250" r="1.5"/>
+  </g>
+  <text x="400" y="225" text-anchor="middle" fill="#fff" font-size="52" font-weight="700" letter-spacing="4">AURORA</text>
+  <text x="400" y="272" text-anchor="middle" fill="#fff" font-size="26" font-weight="500" letter-spacing="10">NIGHT TOUR 2026</text>
+  <text x="400" y="320" text-anchor="middle" fill="#9ee8e5" font-size="17" letter-spacing="3">アオゾラシンフォニー</text>
+  <rect x="330" y="345" width="140" height="1.5" fill="#9ee8e5" opacity=".6"/>
+</svg>

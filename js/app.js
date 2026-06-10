@@ -1,4 +1,4 @@
-/* トップページ：検索・絞り込み・一覧・レコメンド */
+/* トップページ：注目興行・検索・絞り込み・一覧・レコメンド */
 
 const state = { keyword: "", genre: "", region: "", month: "", onsaleOnly: false };
 
@@ -39,21 +39,31 @@ function initFilters() {
   });
   regionSel.addEventListener("change", () => { state.region = regionSel.value; render(); });
 
-  // 月（今日から4ヶ月分）
+  // 月（公演がある月だけ）
   const monthSel = $("#month-select");
-  for (let i = 0; i < 4; i++) {
-    const d = new Date(TODAY.getFullYear(), TODAY.getMonth() + i, 1);
+  const months = [...new Set(
+    EVENTS.flatMap((e) => e.performances.map((p) => {
+      const d = parseDate(p.date);
+      return `${d.getFullYear()}-${d.getMonth()}`;
+    }))
+  )].sort((a, b) => {
+    const [ay, am] = a.split("-").map(Number);
+    const [by, bm] = b.split("-").map(Number);
+    return ay - by || am - bm;
+  });
+  months.forEach((m) => {
+    const [y, mo] = m.split("-").map(Number);
     const o = document.createElement("option");
-    o.value = `${d.getFullYear()}-${d.getMonth()}`;
-    o.textContent = `${d.getFullYear()}年${d.getMonth() + 1}月`;
+    o.value = m;
+    o.textContent = `${y}年${mo + 1}月`;
     monthSel.appendChild(o);
-  }
+  });
   monthSel.addEventListener("change", () => { state.month = monthSel.value; render(); });
 
   // キーワード
   $("#keyword").addEventListener("input", (e) => { state.keyword = e.target.value.trim(); render(); });
 
-  // 受付中のみ
+  // 発売中のみ
   $("#onsale-only").addEventListener("change", (e) => { state.onsaleOnly = e.target.checked; render(); });
 
   // クリア
@@ -73,13 +83,14 @@ function initFilters() {
 function matches(ev) {
   if (state.keyword) {
     const kw = state.keyword.toLowerCase();
-    if (!ev.title.toLowerCase().includes(kw) && !ev.artist.toLowerCase().includes(kw)) return false;
+    const target = `${ev.title} ${ev.subTitle} ${ev.artist}`.toLowerCase();
+    if (!target.includes(kw)) return false;
   }
   if (state.genre && ev.genre !== state.genre) return false;
   if (state.region && !regionsOf(ev).includes(state.region)) return false;
   if (state.month) {
     const hit = ev.performances.some((p) => {
-      const d = addDays(p.d);
+      const d = parseDate(p.date);
       return `${d.getFullYear()}-${d.getMonth()}` === state.month;
     });
     if (!hit) return false;
@@ -88,35 +99,42 @@ function matches(ev) {
   return true;
 }
 
-/* 受付中 → 受付前 → 終了、同ステータス内は初日が近い順 */
-const STATUS_ORDER = { onsale: 0, upcoming: 1, ended: 2 };
-
+/* 現行サイトと同じく公演日の近い順 */
 function sortEvents(list) {
-  return [...list].sort((a, b) => {
-    const s = STATUS_ORDER[eventStatus(a)] - STATUS_ORDER[eventStatus(b)];
-    if (s !== 0) return s;
-    return Math.min(...a.performances.map((p) => p.d)) - Math.min(...b.performances.map((p) => p.d));
-  });
+  return [...list].sort((a, b) => firstDate(a) - firstDate(b));
 }
 
 /* ---------- カード描画 ---------- */
 
+function cardDateHTML(ev) {
+  const d = firstDate(ev);
+  const dowClass = d.getDay() === 0 ? "sun" : d.getDay() === 6 ? "sat" : "";
+  const multi = ev.performances.length > 1
+    ? `<span class="multi">〜 ${fmtDate(new Date(Math.max(...ev.performances.map((p) => parseDate(p.date).getTime()))))}</span>`
+    : "";
+  return `
+    <div class="card-date">
+      <span class="num">${fmtDate(d)}</span>
+      <span class="dow ${dowClass}">(${DOW[d.getDay()]})</span>
+      ${multi}
+    </div>`;
+}
+
 function cardHTML(ev) {
   const st = eventStatus(ev);
   const regions = regionsOf(ev);
+  const sub = ev.subTitle ? `<span class="card-sub">${ev.subTitle}</span>` : "";
   return `
     <a class="event-card" href="event.html?id=${ev.id}">
-      <div class="card-visual" style="${visualStyle(ev)}">
+      <div class="card-visual">
+        ${cardImgTag(ev)}
         <span class="genre-tag">${GENRES[ev.genre].label}</span>
-        <span class="visual-title">${ev.title}</span>
       </div>
       <div class="card-body">
-        <span class="card-artist">${ev.artist}</span>
+        ${cardDateHTML(ev)}
+        ${sub}
         <h3 class="card-title">${ev.title}</h3>
-        <div class="card-info">
-          <span class="row"><span class="ico">&#128197;</span>${firstLastDates(ev)}</span>
-          <span class="row"><span class="ico">&#128205;</span>${regions.join("・")}</span>
-        </div>
+        <span class="card-venue">&#128205; ${[...new Set(ev.performances.map((p) => p.venue))].join("／")}</span>
         <div class="card-foot">
           <span class="perf-count">全 <b>${ev.performances.length}</b> 公演</span>
           <span class="badge ${st}">${STATUS_LABEL[st]}</span>
@@ -135,16 +153,43 @@ function render() {
   $("#clear-filters").classList.toggle("visible", !!filtering);
 }
 
-/* ---------- レコメンド（デモ：音楽好き想定で受付中/受付前の音楽系を優先） ---------- */
+/* ---------- 注目興行（発売中で公演日がいちばん近いもの） ---------- */
+
+function renderFeatured() {
+  const pick = sortEvents(EVENTS.filter((ev) => eventStatus(ev) === "onsale"))[0]
+            || sortEvents(EVENTS)[0];
+  const st = eventStatus(pick);
+  const p = pick.performances[0];
+  const sub = pick.subTitle ? `<span class="sub-title">${pick.subTitle}</span>` : "";
+  $("#featured").innerHTML = `
+    <div class="featured" data-point="トップで「いま買える注目興行」を提示">
+      <div class="featured-visual" style="background-image:url('${pick.img}'),linear-gradient(135deg,${GENRES[pick.genre].grad[0]},${GENRES[pick.genre].grad[1]})"></div>
+      <div class="featured-info">
+        <span class="pickup-label">PICK UP</span>
+        ${sub}
+        <h2>${pick.title}</h2>
+        <div class="featured-meta">
+          <span class="row">&#128197; <b>${firstLastDates(pick)}</b></span>
+          <span class="row">&#128205; ${[...new Set(pick.performances.map((x) => x.venue))].join("／")}</span>
+          <span class="row">開演 ${p.time}（開場 ${p.open}）</span>
+        </div>
+        <div class="featured-cta">
+          <a class="buy-btn ${st}" href="event.html?id=${pick.id}">${st === "onsale" ? "チケットをえらぶ" : STATUS_LABEL[st]}</a>
+          <span class="badge ${st}">${STATUS_LABEL[st]}</span>
+        </div>
+      </div>
+    </div>`;
+}
+
+/* ---------- レコメンド（デモ：音楽・フェス好き想定） ---------- */
 
 function renderRecommend() {
-  const picks = sortEvents(
-    EVENTS.filter((ev) => eventStatus(ev) !== "ended")
-  ).sort((a, b) => {
-    const am = a.genre === "music" || a.genre === "festival" ? 0 : 1;
-    const bm = b.genre === "music" || b.genre === "festival" ? 0 : 1;
-    return am - bm;
-  }).slice(0, 4);
+  const picks = sortEvents(EVENTS.filter((ev) => eventStatus(ev) !== "ended"))
+    .sort((a, b) => {
+      const fav = (x) => (x.genre === "music" || x.genre === "show" ? 0 : 1);
+      return fav(a) - fav(b);
+    })
+    .slice(0, 4);
   $("#recommend-strip").innerHTML = picks.map(cardHTML).join("");
 }
 
@@ -160,6 +205,7 @@ function initPointsToggle() {
 }
 
 initFilters();
+renderFeatured();
 render();
 renderRecommend();
 initPointsToggle();

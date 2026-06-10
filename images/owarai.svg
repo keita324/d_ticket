@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="'Noto Sans JP','Hiragino Sans',sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f5a623"/>
+      <stop offset="1" stop-color="#e0521b"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <!-- 放射状の縁日風ライン -->
+  <g stroke="#ffffff" stroke-opacity=".18" stroke-width="26">
+    <line x1="400" y1="225" x2="400" y2="-80"/>
+    <line x1="400" y1="225" x2="700" y2="-60"/>
+    <line x1="400" y1="225" x2="880" y2="100"/>
+    <line x1="400" y1="225" x2="880" y2="350"/>
+    <line x1="400" y1="225" x2="700" y2="510"/>
+    <line x1="400" y1="225" x2="400" y2="530"/>
+    <line x1="400" y1="225" x2="100" y2="510"/>
+    <line x1="400" y1="225" x2="-80" y2="350"/>
+    <line x1="400" y1="225" x2="-80" y2="100"/>
+    <line x1="400" y1="225" x2="100" y2="-60"/>
+  </g>
+  <circle cx="400" cy="218" r="128" fill="#fff" opacity=".95"/>
+  <!-- 笑顔 -->
+  <g stroke="#e0521b" stroke-width="9" stroke-linecap="round" fill="none">
+    <path d="M340 195 q14 -16 28 0"/>
+    <path d="M432 195 q14 -16 28 0"/>
+    <path d="M330 245 q70 64 140 0"/>
+  </g>
+  <text x="400" y="395" text-anchor="middle" fill="#fff" font-size="44" font-weight="700" letter-spacing="4">真夏のお笑いフェスタ</text>
+  <text x="400" y="425" text-anchor="middle" fill="#ffe8c2" font-size="18" font-weight="500" letter-spacing="8">2026・人気芸人 総勢30組</text>
+</svg>
