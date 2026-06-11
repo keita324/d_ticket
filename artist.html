@@ -2,8 +2,8 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8">
-  <title>興行詳細｜d ticket 改善提案デモ</title>
-  <meta name="description" content="興行ごとの全公演・全日程を一覧で比較できる詳細ページのデモです。">
+  <title>アーティスト｜d ticket 改善提案デモ</title>
+  <meta name="description" content="アーティスト単位で公演を探せるアーティストページのデモです。">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#0abab5">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -74,69 +74,40 @@
     </div>
   </nav>
 
-  <!-- 興行ヒーロー -->
-  <div class="detail-hero" id="detail-hero">
+  <!-- アーティストヒーロー -->
+  <div class="artist-hero" id="artist-hero">
     <div class="wrap">
-      <p class="breadcrumb"><a href="index.html">TOP</a> &nbsp;&#8250;&nbsp; <span id="bc-genre"></span></p>
-      <span class="detail-genre" id="detail-genre"></span>
-      <p class="sub-title" id="detail-sub"></p>
-      <h1 id="detail-title"></h1>
-      <div class="detail-artist-link" id="detail-artist-link"></div>
-      <div class="detail-summary" id="detail-summary"></div>
-      <div class="detail-key-visual" id="detail-key-visual"></div>
+      <p class="breadcrumb"><a href="index.html">TOP</a> &nbsp;&#8250;&nbsp; アーティスト</p>
+      <span class="artist-label">ARTIST</span>
+      <h1 id="artist-name"></h1>
+      <p class="artist-desc" id="artist-desc"></p>
+      <div data-point="フォロー＝発売通知。アプリ化（中長期施策）への布石">
+        <button class="follow-btn" id="follow-btn" type="button">&#10010; フォローする</button>
+        <span class="follow-note">フォローすると新規公演・発売開始をお知らせします（アプリ化後はプッシュ通知）</span>
+      </div>
     </div>
   </div>
 
   <div class="detail-body">
     <div class="wrap">
-      <p class="detail-desc" id="detail-desc"></p>
-      <div class="detail-grid">
-        <div>
-          <!-- 改善② 全公演一覧 / 改善③ 発売状況 -->
-          <div class="section-head" data-point="改善② 同じ興行の全日程をここで比較できる">
-            <h2>公演日程をえらぶ</h2>
-            <span class="sub">押せるボタンはひと目でわかる</span>
-          </div>
-          <div class="perf-list" id="perf-list" data-point="改善③ 発売中／発売前／受付終了 を明示（現状：押すとエラー）"></div>
+      <!-- 公演一覧 -->
+      <section class="section">
+        <div class="section-head" data-point="アーティスト単位で公演を探せる（N1分析①への回答）">
+          <h2>公演一覧</h2>
+          <span class="sub">このアーティストのすべての興行</span>
         </div>
-
-        <aside>
-          <div class="side-card">
-            <h3>チケット料金</h3>
-            <div id="price-list"></div>
-            <p class="point-note">&#128176; d払いなら <b>dポイント5%還元</b>（デモ表示）</p>
-          </div>
-          <div class="side-card">
-            <h3>発売・受付について</h3>
-            <ul id="sale-info"></ul>
-          </div>
-        </aside>
-      </div>
-
-      <!-- アーティストの他公演 -->
-      <section class="section" id="artist-events-section" hidden>
-        <div class="section-head" data-point="アーティスト単位で他公演をたどれる">
-          <h2 id="artist-events-title"></h2>
-          <span class="sub"><a id="artist-page-link" href="#" style="color:var(--teal);text-decoration:underline">アーティストページをみる &#8250;</a></span>
-        </div>
-        <div class="event-grid" id="artist-events-grid"></div>
+        <div class="event-grid" id="artist-grid"></div>
       </section>
 
-      <!-- 改善④ 関連レコメンド -->
+      <!-- 他のおすすめ -->
       <section class="section">
-        <div class="section-head" data-point="改善④ 興行ページにも「次のおすすめ」を表示">
-          <h2>この興行が気になるあなたへ</h2>
-          <span class="sub">ほかのジャンル・アーティストからご提案</span>
+        <div class="section-head" data-point="改善④ ここでも次のおすすめを提示">
+          <h2>こちらもおすすめ</h2>
+          <span class="sub">ほかのアーティスト・ジャンルからご提案</span>
         </div>
-        <div class="event-grid" id="related-grid"></div>
+        <div class="event-grid" id="other-grid"></div>
       </section>
     </div>
-  </div>
-
-  <!-- モバイル固定CTA -->
-  <div class="sticky-cta" id="sticky-cta">
-    <span class="info"><b id="cta-title"></b><span id="cta-note"></span></span>
-    <button class="buy-btn onsale" id="cta-btn" type="button">申込む</button>
   </div>
 
   <footer class="site-footer">
@@ -163,6 +134,6 @@
 
   <script src="js/data.js"></script>
   <script src="js/common.js"></script>
-  <script src="js/event.js"></script>
+  <script src="js/artist.js"></script>
 </body>
 </html>

@@ -24,9 +24,56 @@
         <a href="#recommend">あなたへのおすすめ</a>
         <span class="dpoint">dポイント <b>2,450</b> pt</span>
         <button class="login-btn" type="button">ログイン</button>
+        <button class="menu-btn" id="menu-btn" type="button" aria-label="メニューを開く" data-point="リセール・分配はメニューに集約">
+          <span class="bars"><span></span><span></span><span></span></span>
+          <span class="menu-label">MENU</span>
+        </button>
       </nav>
     </div>
   </header>
+
+  <div class="drawer-backdrop" id="drawer-backdrop"></div>
+  <nav class="drawer" id="drawer" aria-label="メニュー">
+    <div class="drawer-head">
+      <span>d&nbsp;ticket</span>
+      <button class="drawer-close" id="drawer-close" type="button" aria-label="メニューを閉じる">&times;</button>
+    </div>
+    <span class="drawer-group-label">チケット</span>
+    <a class="drawer-item" href="index.html#events">
+      <span class="d-ico">&#128269;</span>
+      <span class="d-main">イベントをさがす</span>
+      <span class="arrow">&#8250;</span>
+    </a>
+    <a class="drawer-item" href="#" data-demo="公式リセールへ進みます。行けなくなったチケットを定価で安心・安全に売買できます">
+      <span class="d-ico">&#128257;</span>
+      <span class="d-main">リセール<span class="d-desc">行けなくなったチケットを売る・買う</span></span>
+      <span class="arrow">&#8250;</span>
+    </a>
+    <a class="drawer-item" href="#" data-demo="チケット分配へ進みます。購入したチケットを同行者に送れます">
+      <span class="d-ico">&#128228;</span>
+      <span class="d-main">チケット分配<span class="d-desc">同行者にチケットを送る</span></span>
+      <span class="arrow">&#8250;</span>
+    </a>
+    <a class="drawer-item" href="#" data-demo="購入済みチケットの一覧へ進みます">
+      <span class="d-ico">&#127903;</span>
+      <span class="d-main">チケット一覧</span>
+      <span class="arrow">&#8250;</span>
+    </a>
+    <span class="drawer-group-label">サポート</span>
+    <a class="drawer-item" href="#" data-demo="ご利用ガイドを表示します">
+      <span class="d-ico">&#128214;</span>
+      <span class="d-main">ご利用ガイド</span>
+      <span class="arrow">&#8250;</span>
+    </a>
+    <a class="drawer-item" href="#" data-demo="よくあるご質問を表示します">
+      <span class="d-ico">&#10067;</span>
+      <span class="d-main">よくあるご質問</span>
+      <span class="arrow">&#8250;</span>
+    </a>
+    <div class="drawer-foot">
+      <button class="login-btn" type="button" data-demo="ログイン画面へ進みます">ログイン</button>
+    </div>
+  </nav>
 
   <div class="wrap">
     <div class="page-bar">
@@ -100,6 +147,15 @@
         <a href="#">リセールについて</a>
         <a href="#">お問い合わせ</a>
       </div>
+      <div class="sns-row">
+        <span class="sns-label">公式SNS</span>
+        <a class="sns-btn" href="#" aria-label="X（旧Twitter）" data-demo="d ticket 公式Xを開きます">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.451-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644z"/></svg>
+        </a>
+        <a class="sns-btn" href="#" aria-label="Instagram" data-demo="d ticket 公式Instagramを開きます">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+        </a>
+      </div>
       <p class="disclaimer">
         本サイトは d ticket のUI改善を提案するための<b>社内デモンストレーション</b>です。
         実イベント4件（TGC各公演・びわ湖大花火大会）の情報・画像は d ticket 公式サイトを参照しています。
@@ -112,6 +168,7 @@
   <button class="points-toggle" id="points-toggle" type="button">&#128161; 改善ポイントを表示</button>
 
   <script src="js/data.js"></script>
+  <script src="js/common.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

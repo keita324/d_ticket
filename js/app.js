@@ -2,8 +2,6 @@
 
 const state = { keyword: "", genre: "", region: "", month: "", onsaleOnly: false };
 
-const $ = (sel) => document.querySelector(sel);
-
 /* ---------- フィルタUIの初期化 ---------- */
 
 function initFilters() {
@@ -104,45 +102,6 @@ function sortEvents(list) {
   return [...list].sort((a, b) => firstDate(a) - firstDate(b));
 }
 
-/* ---------- カード描画 ---------- */
-
-function cardDateHTML(ev) {
-  const d = firstDate(ev);
-  const dowClass = d.getDay() === 0 ? "sun" : d.getDay() === 6 ? "sat" : "";
-  const multi = ev.performances.length > 1
-    ? `<span class="multi">〜 ${fmtDate(new Date(Math.max(...ev.performances.map((p) => parseDate(p.date).getTime()))))}</span>`
-    : "";
-  return `
-    <div class="card-date">
-      <span class="num">${fmtDate(d)}</span>
-      <span class="dow ${dowClass}">(${DOW[d.getDay()]})</span>
-      ${multi}
-    </div>`;
-}
-
-function cardHTML(ev) {
-  const st = eventStatus(ev);
-  const regions = regionsOf(ev);
-  const sub = ev.subTitle ? `<span class="card-sub">${ev.subTitle}</span>` : "";
-  return `
-    <a class="event-card" href="event.html?id=${ev.id}">
-      <div class="card-visual">
-        ${cardImgTag(ev)}
-        <span class="genre-tag">${GENRES[ev.genre].label}</span>
-      </div>
-      <div class="card-body">
-        ${cardDateHTML(ev)}
-        ${sub}
-        <h3 class="card-title">${ev.title}</h3>
-        <span class="card-venue">&#128205; ${[...new Set(ev.performances.map((p) => p.venue))].join("／")}</span>
-        <div class="card-foot">
-          <span class="perf-count">全 <b>${ev.performances.length}</b> 公演</span>
-          <span class="badge ${st}">${STATUS_LABEL[st]}</span>
-        </div>
-      </div>
-    </a>`;
-}
-
 function render() {
   const list = sortEvents(EVENTS.filter(matches));
   $("#event-grid").innerHTML = list.map(cardHTML).join("");
@@ -170,7 +129,7 @@ function renderFeatured() {
         <h2>${pick.title}</h2>
         <div class="featured-meta">
           <span class="row">&#128197; <b>${firstLastDates(pick)}</b></span>
-          <span class="row">&#128205; ${[...new Set(pick.performances.map((x) => x.venue))].join("／")}</span>
+          <span class="row">&#128205; ${venueSummary(pick)}</span>
           <span class="row">開演 ${p.time}（開場 ${p.open}）</span>
         </div>
         <div class="featured-cta">
@@ -193,19 +152,7 @@ function renderRecommend() {
   $("#recommend-strip").innerHTML = picks.map(cardHTML).join("");
 }
 
-/* ---------- 改善ポイント表示 ---------- */
-
-function initPointsToggle() {
-  const btn = $("#points-toggle");
-  btn.addEventListener("click", () => {
-    document.body.classList.toggle("show-points");
-    const on = document.body.classList.contains("show-points");
-    btn.innerHTML = on ? "&#128161; 改善ポイントを隠す" : "&#128161; 改善ポイントを表示";
-  });
-}
-
 initFilters();
 renderFeatured();
 render();
 renderRecommend();
-initPointsToggle();

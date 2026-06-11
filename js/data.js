@@ -16,11 +16,36 @@ const GENRES = {
 
 const IMG_BASE = "https://dticket.docomo.ne.jp/11030001/21030001/ticket-resources/stage-img/";
 
+/* アーティスト（公演主体）。id を持つものはアーティストページあり */
+const ARTISTS = {
+  tgc: {
+    name: "TOKYO GIRLS COLLECTION",
+    genre: "show",
+    desc: "「日本のガールズカルチャーを世界へ」をテーマに開催される、史上最大級のファッションフェスタ。全国各地で公演を展開中。",
+  },
+  aozora: {
+    name: "アオゾラシンフォニー",
+    genre: "music",
+    desc: "（架空のアーティスト）疾走感あるバンドサウンドが人気の4人組ロックバンド。最新アルバム『AURORA』を引っさげ全国ツアー中。",
+  },
+  hanamizuki: {
+    name: "劇団ハナミズキ",
+    genre: "stage",
+    desc: "（架空の劇団）緻密な脚本と温度のある芝居に定評のある劇団。代表作『影法師の街』が各演劇賞にノミネート。",
+  },
+  totophil: {
+    name: "東都フィルハーモニー管弦楽団",
+    genre: "classic",
+    desc: "（架空の楽団）クラシック初心者からファンまで楽しめる、親しみやすいプログラムに定評のあるオーケストラ。",
+  },
+};
+
 const EVENTS = [
   /* ---------- d ticket 掲載中の実イベント ---------- */
   {
     id: "260718TGCN03",
     real: true,
+    artistId: "tgc",
     title: "NAMICS presents TGC 新潟 2026",
     subTitle: "",
     artist: "TOKYO GIRLS COLLECTION",
@@ -36,6 +61,7 @@ const EVENTS = [
   {
     id: "260806BWHS01",
     real: true,
+    artistId: null,
     title: "2026 びわ湖大花火大会",
     subTitle: "",
     artist: "びわ湖大花火大会実行委員会",
@@ -51,6 +77,7 @@ const EVENTS = [
   {
     id: "260816TGCE03",
     real: true,
+    artistId: "tgc",
     title: "TGC MATSUYAMA 2026 by TOKYO GIRLS COLLECTION",
     subTitle: "SBI証券 presents",
     artist: "TOKYO GIRLS COLLECTION",
@@ -66,6 +93,7 @@ const EVENTS = [
   {
     id: "260919TGCK01",
     real: true,
+    artistId: "tgc",
     title: "第43回 マイナビ 東京ガールズコレクション 2026 AUTUMN/WINTER",
     subTitle: "",
     artist: "TOKYO GIRLS COLLECTION",
@@ -83,24 +111,28 @@ const EVENTS = [
   {
     id: "demo-aurora",
     real: false,
+    artistId: "aozora",
     title: "AURORA NIGHT TOUR 2026",
     subTitle: "",
     artist: "アオゾラシンフォニー",
     genre: "music",
     img: "images/aurora.svg",
-    desc: "最新アルバム『AURORA』を引っさげた、バンド史上最大規模のアリーナツアー。2都市4公演から日程をえらべます。",
+    desc: "最新アルバム『AURORA』を引っさげた、バンド史上最大規模のアリーナツアー。全国4都市6公演から日程をえらべます。",
     price: [{ name: "指定席", yen: 9800 }, { name: "注釈付指定席", yen: 8800 }],
     sale: { start: "2026-06-01T10:00", end: "2026-08-30T23:59" },
     performances: [
       { date: "2026-09-05", time: "18:00", open: "16:30", venue: "さいたまスーパーアリーナ", region: "埼玉" },
       { date: "2026-09-06", time: "17:00", open: "15:30", venue: "さいたまスーパーアリーナ", region: "埼玉" },
+      { date: "2026-09-12", time: "18:00", open: "16:30", venue: "日本ガイシホール", region: "愛知" },
       { date: "2026-09-26", time: "18:00", open: "16:30", venue: "大阪城ホール", region: "大阪" },
       { date: "2026-09-27", time: "16:00", open: "14:30", venue: "大阪城ホール", region: "大阪" },
+      { date: "2026-10-03", time: "17:00", open: "15:30", venue: "マリンメッセ福岡 A館", region: "福岡" },
     ],
   },
   {
     id: "demo-kageboshi",
     real: false,
+    artistId: "hanamizuki",
     title: "舞台『影法師の街』",
     subTitle: "再演",
     artist: "劇団ハナミズキ",
@@ -118,6 +150,7 @@ const EVENTS = [
   {
     id: "demo-owarai",
     real: false,
+    artistId: null,
     title: "真夏のお笑いフェスタ 2026",
     subTitle: "",
     artist: "人気芸人 総勢30組",
@@ -133,6 +166,7 @@ const EVENTS = [
   {
     id: "demo-phil",
     real: false,
+    artistId: "totophil",
     title: "サマーナイト・フィルハーモニー",
     subTitle: "",
     artist: "東都フィルハーモニー管弦楽団",
@@ -203,8 +237,19 @@ function firstDate(ev) {
   return new Date(Math.min(...ev.performances.map((p) => parseDate(p.date).getTime())));
 }
 
+function lastDate(ev) {
+  return new Date(Math.max(...ev.performances.map((p) => parseDate(p.date).getTime())));
+}
+
 function regionsOf(ev) {
   return [...new Set(ev.performances.map((p) => p.region))];
+}
+
+/* 会場表記: 会場が多いツアーは「全国n都市ツアー」とまとめる */
+function venueSummary(ev) {
+  const venues = [...new Set(ev.performances.map((p) => p.venue))];
+  if (venues.length <= 2) return venues.join("／");
+  return `全国${regionsOf(ev).length}都市ツアー`;
 }
 
 /* 画像が読めない場合のフォールバック用グラデーション */

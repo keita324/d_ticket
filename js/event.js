@@ -1,6 +1,4 @@
-/* 興行詳細ページ：全公演一覧・発売状況・関連レコメンド */
-
-const $ = (sel) => document.querySelector(sel);
+/* 興行詳細ページ：全公演一覧・発売状況・アーティスト他公演・関連レコメンド */
 
 const params = new URLSearchParams(location.search);
 const ev = EVENTS.find((e) => e.id === params.get("id")) || EVENTS[0];
@@ -21,9 +19,14 @@ $("#detail-desc").textContent = ev.desc;
 $("#detail-key-visual").innerHTML =
   `<img src="${ev.img}" alt="${ev.title}" onerror="this.parentElement.remove()">`;
 
+/* 出演・主催（アーティストページがあればリンクに） */
+$("#detail-artist-link").innerHTML = ev.artistId
+  ? `出演・主催：<a href="artist.html?id=${ev.artistId}">${ARTISTS[ev.artistId].name}</a>`
+  : `出演・主催：${ev.artist}`;
+
 $("#detail-summary").innerHTML = `
   <span class="item">&#128197; ${firstLastDates(ev)}</span>
-  <span class="item">&#128205; ${[...new Set(ev.performances.map((p) => p.venue))].join("／")}</span>
+  <span class="item">&#128205; ${venueSummary(ev)}</span>
   <span class="item"><span class="badge ${st}">${STATUS_LABEL[st]}</span>&nbsp;${statusNote(ev)}</span>
 `;
 
@@ -86,47 +89,28 @@ if (st === "onsale") {
   $("#cta-btn").addEventListener("click", () => alert("（デモ）申込画面へ進みます"));
 }
 
-/* ---------- 関連レコメンド ---------- */
+/* ---------- このアーティストの他公演 ---------- */
 
-function cardDateHTML(e2) {
-  const d = firstDate(e2);
-  const dowClass = d.getDay() === 0 ? "sun" : d.getDay() === 6 ? "sat" : "";
-  const multi = e2.performances.length > 1
-    ? `<span class="multi">〜 ${fmtDate(new Date(Math.max(...e2.performances.map((p) => parseDate(p.date).getTime()))))}</span>`
-    : "";
-  return `
-    <div class="card-date">
-      <span class="num">${fmtDate(d)}</span>
-      <span class="dow ${dowClass}">(${DOW[d.getDay()]})</span>
-      ${multi}
-    </div>`;
+const sameArtist = ev.artistId
+  ? EVENTS.filter((e2) => e2.id !== ev.id && e2.artistId === ev.artistId)
+      .sort((a, b) => firstDate(a) - firstDate(b))
+  : [];
+
+if (sameArtist.length) {
+  $("#artist-events-section").hidden = false;
+  $("#artist-events-title").textContent = `${ARTISTS[ev.artistId].name} の他公演`;
+  $("#artist-page-link").href = `artist.html?id=${ev.artistId}`;
+  $("#artist-events-grid").innerHTML = sameArtist.map(cardHTML).join("");
 }
 
-function cardHTML(e2) {
-  const s2 = eventStatus(e2);
-  const sub = e2.subTitle ? `<span class="card-sub">${e2.subTitle}</span>` : "";
-  return `
-    <a class="event-card" href="event.html?id=${e2.id}">
-      <div class="card-visual">
-        ${cardImgTag(e2)}
-        <span class="genre-tag">${GENRES[e2.genre].label}</span>
-      </div>
-      <div class="card-body">
-        ${cardDateHTML(e2)}
-        ${sub}
-        <h3 class="card-title">${e2.title}</h3>
-        <span class="card-venue">&#128205; ${[...new Set(e2.performances.map((p) => p.venue))].join("／")}</span>
-        <div class="card-foot">
-          <span class="perf-count">全 <b>${e2.performances.length}</b> 公演</span>
-          <span class="badge ${s2}">${STATUS_LABEL[s2]}</span>
-        </div>
-      </div>
-    </a>`;
-}
+/* ---------- 関連レコメンド（同一アーティストは除外） ---------- */
 
 const myRegions = regionsOf(ev);
 const related = EVENTS
-  .filter((e2) => e2.id !== ev.id && eventStatus(e2) !== "ended")
+  .filter((e2) =>
+    e2.id !== ev.id &&
+    eventStatus(e2) !== "ended" &&
+    !(ev.artistId && e2.artistId === ev.artistId))
   .sort((a, b) => {
     const score = (x) =>
       (x.genre === ev.genre ? 2 : 0) + (regionsOf(x).some((r) => myRegions.includes(r)) ? 1 : 0);
@@ -135,11 +119,3 @@ const related = EVENTS
   .slice(0, 4);
 
 $("#related-grid").innerHTML = related.map(cardHTML).join("");
-
-/* ---------- 改善ポイント表示 ---------- */
-
-$("#points-toggle").addEventListener("click", () => {
-  document.body.classList.toggle("show-points");
-  const on = document.body.classList.contains("show-points");
-  $("#points-toggle").innerHTML = on ? "&#128161; 改善ポイントを隠す" : "&#128161; 改善ポイントを表示";
-});
