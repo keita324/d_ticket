@@ -44,7 +44,9 @@ body {
     radial-gradient(1200px 600px at 80% -10%, rgba(28, 48, 110, .55), transparent 60%),
     radial-gradient(900px 500px at -10% 30%, rgba(18, 36, 90, .45), transparent 60%),
     linear-gradient(160deg, #0c1430 0%, #070d22 55%, #05091a 100%);
-  background-attachment: fixed;
+  /* PCでは background-attachment:fixed が毎スクロール再描画を招き重く（カクつき）なる。
+     スマホはfixedを無視するため体感差が出ない。scroll にして描画を1回に抑える */
+  background-attachment: scroll;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -1097,6 +1099,195 @@ img { max-width: 100%; display: block; }
 .sticky-cta .info { flex: 1; min-width: 0; font-size: 1.2rem; color: var(--text-sub); }
 .sticky-cta .info b { display: block; font-size: 1.3rem; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
+/* =========================================================
+   専用レイアウト（びわ湖大花火大会）
+   情報量の多い興行を、見やすく整理して表示するための装飾
+   ========================================================= */
+
+/* いま申し込めるかを示す上部バナー */
+.apply-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--text-dim);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  margin: 0 0 24px;
+}
+
+.apply-banner.onsale { border-left-color: var(--red); }
+.apply-banner.upcoming { border-left-color: var(--sat); }
+
+.apply-banner .apply-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.apply-banner .apply-info b { font-size: 1.45rem; font-weight: 700; }
+
+.rich-grid {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 28px;
+  align-items: start;
+}
+
+.rich-main .section { padding: 0 0 30px; }
+.rich-main .section-head { margin-bottom: 14px; }
+
+/* 開催概要（定義リスト） */
+.overview {
+  margin: 0;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.overview .ov-row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 12px;
+  padding: 13px 18px;
+  font-size: 1.4rem;
+}
+
+.overview .ov-row + .ov-row { border-top: 1px solid var(--line); }
+.overview dt { color: var(--text-dim); font-weight: 500; margin: 0; }
+.overview dd { margin: 0; color: var(--text); }
+
+/* 席種・料金 */
+.seat-group { margin-bottom: 18px; }
+
+.seat-group-title {
+  margin: 0 0 8px;
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--teal);
+}
+
+.seat-table {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.seat-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 13px 18px;
+}
+
+.seat-row + .seat-row { border-top: 1px solid var(--line); }
+
+.seat-name { font-size: 1.4rem; font-weight: 500; }
+.seat-name .seat-note { display: block; font-size: 1.15rem; color: var(--text-dim); font-weight: 400; }
+
+.seat-price {
+  font-size: 1.7rem;
+  font-weight: 700;
+  white-space: nowrap;
+  color: var(--text);
+}
+.seat-price .seat-tax { font-size: 1.15rem; font-weight: 400; color: var(--text-dim); margin-left: 1px; }
+
+/* 来場者特典カード */
+.benefit-card {
+  position: relative;
+  background: linear-gradient(135deg, rgba(203, 10, 57, .14), rgba(10, 186, 181, .10));
+  border: 1px solid rgba(255, 255, 255, .14);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+}
+
+.benefit-card .benefit-tag {
+  display: inline-block;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ffd27d;
+  margin-bottom: 8px;
+}
+
+.benefit-card h3 { margin: 0 0 8px; font-size: 1.6rem; font-weight: 700; }
+.benefit-card .benefit-lead { margin: 0 0 12px; font-size: 1.35rem; color: var(--text-sub); }
+
+.benefit-list { margin: 0; padding-left: 20px; font-size: 1.35rem; }
+.benefit-list li { margin-bottom: 6px; }
+.benefit-card .benefit-note { margin: 12px 0 0; font-size: 1.2rem; color: var(--text-dim); }
+
+/* アクセス・注意書き */
+.access-text { font-size: 1.4rem; color: var(--text-sub); margin: 0; line-height: 1.8; }
+
+.note-list { margin: 0; padding-left: 20px; font-size: 1.3rem; color: var(--text-sub); }
+.note-list li { margin-bottom: 8px; line-height: 1.7; }
+
+/* 販売スケジュール（縦タイムライン） */
+.rich-side .side-card.sticky-side { position: sticky; top: 72px; }
+
+.schedule { list-style: none; margin: 0 0 4px; padding: 0; }
+
+.sch-item {
+  position: relative;
+  display: flex;
+  gap: 14px;
+  padding: 0 0 18px 0;
+}
+
+.sch-item .sch-mark {
+  position: relative;
+  flex: none;
+  width: 14px;
+  height: 14px;
+  margin-top: 4px;
+  border-radius: 50%;
+  background: var(--text-dim);
+}
+
+.sch-item.onsale .sch-mark { background: var(--red); box-shadow: 0 0 0 4px rgba(203, 10, 57, .22); }
+.sch-item.upcoming .sch-mark { background: var(--sat); }
+
+/* マーカー同士をつなぐ縦線 */
+.sch-item:not(:last-child) .sch-mark::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 18px;
+  transform: translateX(-50%);
+  width: 2px;
+  height: calc(100% + 18px);
+  background: var(--line-strong);
+}
+
+.sch-body { flex: 1; min-width: 0; }
+
+.sch-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 2px;
+}
+
+.sch-name { font-size: 1.35rem; font-weight: 700; }
+.sch-item.ended .sch-name { color: var(--text-sub); }
+
+.sch-period { font-size: 1.2rem; color: var(--text-sub); }
+.sch-result { font-size: 1.15rem; color: var(--text-dim); }
+
+@media (max-width: 880px) {
+  .rich-grid { grid-template-columns: 1fr; }
+  .rich-side .side-card.sticky-side { position: static; }
+}
+
 /* ---------- 改善ポイント表示モード ---------- */
 .points-toggle {
   position: fixed;
@@ -1158,6 +1349,14 @@ body.show-points [data-point]::before {
 
 @media (max-width: 720px) {
   .header-nav a { display: none; }
+  /* 画面が狭いとロゴ＋デモ表示＋dポイント＋ログイン＋MENUが収まらず、
+     MENUボタンが画面外にはみ出していたため、補助的な要素を隠して整理する */
+  .logo .demo-tag { display: none; }
+  .dpoint { display: none; }
+  .site-header .wrap { gap: 10px; }
+  .header-nav { gap: 8px; }
+  .menu-btn { flex: none; }
+  .login-btn { padding: 6px 16px; }
   .page-bar h1 { font-size: 1.9rem; }
   .search-panel { padding: 14px; }
   .toggle-onsale { margin-left: 0; width: 100%; margin-top: 4px; }

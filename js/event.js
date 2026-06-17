@@ -119,3 +119,136 @@ const related = EVENTS
   .slice(0, 4);
 
 $("#related-grid").innerHTML = related.map(cardHTML).join("");
+
+/* =========================================================
+   専用レイアウト（びわ湖大花火大会など detail を持つ興行）
+   現行の公式ページの掲載内容を、読みやすく整理して表示する
+   ========================================================= */
+
+function renderRichDetail(ev) {
+  const dt = ev.detail;
+  const p = ev.performances[0];
+
+  const overviewHTML = dt.overview
+    .map((o) => `<div class="ov-row"><dt>${o.label}</dt><dd>${o.value}</dd></div>`)
+    .join("");
+
+  const seatHTML = dt.seatGroups
+    .map(
+      (g) => `
+      <div class="seat-group">
+        <h3 class="seat-group-title">${g.title}</h3>
+        <div class="seat-table">
+          ${g.seats
+            .map(
+              (s) => `
+            <div class="seat-row">
+              <div class="seat-name">${s.name}${s.note ? `<span class="seat-note">${s.note}</span>` : ""}</div>
+              <div class="seat-price">¥${s.yen.toLocaleString()}<span class="seat-tax">〜</span></div>
+            </div>`
+            )
+            .join("")}
+        </div>
+      </div>`
+    )
+    .join("");
+
+  const scheduleHTML = dt.schedule
+    .map((s) => {
+      const label = s.state === "onsale" ? "受付中" : s.state === "upcoming" ? "受付前" : "終了";
+      return `
+      <li class="sch-item ${s.state}">
+        <div class="sch-mark"></div>
+        <div class="sch-body">
+          <div class="sch-head">
+            <span class="sch-name">${s.name}</span>
+            <span class="badge ${s.state}">${label}</span>
+          </div>
+          <div class="sch-period">${s.period}</div>
+          <div class="sch-result">${s.result}</div>
+        </div>
+      </li>`;
+    })
+    .join("");
+
+  const benefitHTML = dt.benefit
+    ? `
+    <section class="section">
+      <div class="section-head"><h2>来場者特典</h2></div>
+      <div class="benefit-card">
+        <span class="benefit-tag">&#127873; 特典</span>
+        <h3>${dt.benefit.title}</h3>
+        <p class="benefit-lead">${dt.benefit.lead}</p>
+        <ul class="benefit-list">
+          ${dt.benefit.items.map((i) => `<li>${i}</li>`).join("")}
+        </ul>
+        <p class="benefit-note">${dt.benefit.note}</p>
+      </div>
+    </section>`
+    : "";
+
+  const noteHTML = dt.notes.map((n) => `<li>${n}</li>`).join("");
+
+  $("#rich-detail").innerHTML = `
+    <p class="detail-desc">${ev.desc}</p>
+
+    <!-- いま申し込めるかを最上部で明示 -->
+    <div class="apply-banner ${st}">
+      <div class="apply-info">
+        <span class="badge ${st}">${STATUS_LABEL[st]}</span>
+        <b>${statusNote(ev)}</b>
+      </div>
+      ${
+        st === "onsale"
+          ? `<button class="buy-btn onsale" type="button" onclick="alert('（デモ）申込画面へ進みます')">チケットを申し込む</button>`
+          : st === "upcoming"
+            ? `<span class="buy-btn upcoming">発売前</span>`
+            : `<span class="buy-btn ended">受付終了</span>`
+      }
+    </div>
+
+    <div class="rich-grid">
+      <div class="rich-main">
+        <section class="section">
+          <div class="section-head"><h2>開催概要</h2></div>
+          <dl class="overview">${overviewHTML}</dl>
+        </section>
+
+        <section class="section">
+          <div class="section-head">
+            <h2>席種・料金</h2>
+            <span class="sub">価格は目安（ダイナミックプライシング）</span>
+          </div>
+          ${seatHTML}
+        </section>
+
+        ${benefitHTML}
+
+        <section class="section">
+          <div class="section-head"><h2>アクセス・会場</h2></div>
+          <p class="access-text">&#128205; ${dt.access}</p>
+        </section>
+
+        <section class="section">
+          <div class="section-head"><h2>ご注意</h2></div>
+          <ul class="note-list">${noteHTML}</ul>
+        </section>
+      </div>
+
+      <aside class="rich-side">
+        <div class="side-card sticky-side">
+          <h3>販売スケジュール</h3>
+          <ol class="schedule">${scheduleHTML}</ol>
+          <p class="point-note">&#128176; d払いなら <b>dポイント5%還元</b>（デモ表示）</p>
+        </div>
+      </aside>
+    </div>
+  `;
+
+  $("#rich-detail").hidden = false;
+  $("#default-detail").hidden = true;
+}
+
+if (ev.detail) {
+  renderRichDetail(ev);
+}
