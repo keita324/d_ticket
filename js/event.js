@@ -140,18 +140,30 @@ function renderRichDetail(ev) {
         <h3 class="seat-group-title">${g.title}</h3>
         <div class="seat-table">
           ${g.seats
-            .map(
-              (s) => `
-            <div class="seat-row">
-              <div class="seat-name">${s.name}${s.note ? `<span class="seat-note">${s.note}</span>` : ""}</div>
-              <div class="seat-price">¥${s.yen.toLocaleString()}<span class="seat-tax">〜</span></div>
-            </div>`
-            )
+            .map((s) => {
+              const out = s.status === "soldout";
+              const stat = out
+                ? `<span class="seat-stat out">完売</span>`
+                : `<span class="seat-stat ok">受付中</span>`;
+              const unit = s.unit ? `<span class="seat-unit">/ ${s.unit}</span>` : "";
+              return `
+            <div class="seat-row ${out ? "is-soldout" : ""}">
+              <div class="seat-name">
+                <span class="seat-name-row">${s.name} ${stat}</span>
+                ${s.note ? `<span class="seat-note">${s.note}</span>` : ""}
+              </div>
+              <div class="seat-price">¥${s.yen.toLocaleString()}${unit}</div>
+            </div>`;
+            })
             .join("")}
         </div>
       </div>`
     )
     .join("");
+
+  const externalHTML = dt.externalNote
+    ? `<p class="seat-external">&#8505;&#65039; ${dt.externalNote}</p>`
+    : "";
 
   const scheduleHTML = dt.schedule
     .map((s) => {
@@ -216,10 +228,12 @@ function renderRichDetail(ev) {
 
         <section class="section">
           <div class="section-head">
-            <h2>席種・料金</h2>
+            <h2>席種・料金・申込状況</h2>
             <span class="sub">価格は目安（ダイナミックプライシング）</span>
           </div>
           ${seatHTML}
+          ${dt.priceNote ? `<p class="price-disclaimer">&#9888;&#65039; ${dt.priceNote}</p>` : ""}
+          ${externalHTML}
         </section>
 
         ${benefitHTML}

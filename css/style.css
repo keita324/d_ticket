@@ -1189,16 +1189,52 @@ img { max-width: 100%; display: block; }
 
 .seat-row + .seat-row { border-top: 1px solid var(--line); }
 
-.seat-name { font-size: 1.4rem; font-weight: 500; }
+.seat-name { font-size: 1.4rem; font-weight: 500; min-width: 0; }
+.seat-name .seat-name-row { display: inline; }
 .seat-name .seat-note { display: block; font-size: 1.15rem; color: var(--text-dim); font-weight: 400; }
+
+.seat-stat {
+  display: inline-block;
+  font-size: 1.05rem;
+  font-weight: 700;
+  border-radius: var(--pill);
+  padding: 1px 9px;
+  vertical-align: middle;
+  white-space: nowrap;
+  letter-spacing: .04em;
+}
+.seat-stat.ok { color: #04221f; background: var(--teal); }
+.seat-stat.out { color: var(--text-dim); background: rgba(255, 255, 255, .08); border: 1px solid var(--line); }
 
 .seat-price {
   font-size: 1.7rem;
   font-weight: 700;
   white-space: nowrap;
+  text-align: right;
   color: var(--text);
 }
-.seat-price .seat-tax { font-size: 1.15rem; font-weight: 400; color: var(--text-dim); margin-left: 1px; }
+.seat-price .seat-unit { display: block; font-size: 1.1rem; font-weight: 400; color: var(--text-dim); }
+
+.seat-row.is-soldout { background: rgba(255, 255, 255, .02); }
+.seat-row.is-soldout .seat-name,
+.seat-row.is-soldout .seat-price { color: var(--text-dim); }
+
+.price-disclaimer {
+  margin: 12px 0 0;
+  font-size: 1.2rem;
+  color: var(--text-sub);
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 10px 12px;
+  line-height: 1.6;
+}
+
+.seat-external {
+  margin: 10px 0 0;
+  font-size: 1.2rem;
+  color: var(--text-dim);
+}
 
 /* 来場者特典カード */
 .benefit-card {
