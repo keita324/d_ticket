@@ -17,7 +17,7 @@ $("#detail-sub").hidden = !ev.subTitle;
 $("#detail-title").textContent = ev.title;
 $("#detail-desc").textContent = ev.desc;
 $("#detail-key-visual").innerHTML =
-  `<img src="${ev.img}" alt="${ev.title}" onerror="this.parentElement.remove()">`;
+  `<img src="${ev.img}" alt="${ev.title}" loading="lazy" decoding="async" onerror="this.parentElement.remove()">`;
 
 /* 出演・主催（アーティストページがあればリンクに） */
 $("#detail-artist-link").innerHTML = ev.artistId

@@ -50,7 +50,7 @@ const EVENTS = [
     subTitle: "",
     artist: "TOKYO GIRLS COLLECTION",
     genre: "show",
-    img: IMG_BASE + "260718TGCN03_7_1.jpg",
+    img: "images/tgc-niigata.jpg",
     desc: "日本最大級のファッションフェスタ「TGC」が新潟に上陸。人気モデル・アーティスト・ゲストが集結する一夜限りのスペシャルステージ。",
     price: [{ name: "アリーナ指定席", yen: 12000 }, { name: "スタンド指定席", yen: 9000 }],
     sale: { start: "2026-06-27T10:00", end: "2026-07-12T23:59" },
@@ -348,6 +348,6 @@ function fallbackStyle(ev) {
 }
 
 function cardImgTag(ev) {
-  return `<img src="${ev.img}" alt="${ev.title}" loading="lazy"
+  return `<img src="${ev.img}" alt="${ev.title}" loading="lazy" decoding="async"
             onerror="this.parentElement.setAttribute('style','${fallbackStyle(ev)}');this.remove()">`;
 }
