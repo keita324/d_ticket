@@ -1372,6 +1372,25 @@ body.show-points [data-point]::before {
   white-space: nowrap;
 }
 
+/* ヘッダー内（MENUボタン）の注釈は、右端のボタンから右に伸ばすと
+   画面外に切れてしまうため、ボタンの右端を基準に左へ伸ばして表示する。
+   折り返すと細く崩れるため1行（nowrap）を維持 */
+body.show-points .site-header [data-point]::before {
+  top: calc(100% + 6px);
+  left: auto;
+  right: 0;
+  white-space: nowrap;
+}
+
+/* 画面右端に近い注釈（左寄せで右へ伸びるもの）が切れないよう、
+   モバイルでははみ出す場合に折り返す。ヘッダー分は上の指定が優先される */
+@media (max-width: 720px) {
+  body.show-points [data-point]::before {
+    white-space: normal;
+    max-width: 80vw;
+  }
+}
+
 /* ---------- responsive ---------- */
 @media (max-width: 880px) {
   .detail-grid { grid-template-columns: 1fr; }
