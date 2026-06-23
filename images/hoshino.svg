@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" font-family="'Noto Sans JP','Hiragino Sans',sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#10243f"/>
+      <stop offset=".5" stop-color="#7a3a18"/>
+      <stop offset="1" stop-color="#c4661f"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <!-- 星 -->
+  <g fill="#ffe8c2">
+    <circle cx="120" cy="80" r="3"/><circle cx="220" cy="140" r="2"/><circle cx="680" cy="70" r="3"/>
+    <circle cx="600" cy="150" r="2"/><circle cx="320" cy="60" r="2"/><circle cx="720" cy="220" r="2.5"/>
+    <circle cx="90" cy="200" r="2"/>
+  </g>
+  <!-- 音の波 -->
+  <g stroke="#ffd9a0" stroke-opacity=".5" stroke-width="4" fill="none">
+    <path d="M0,300 Q100,260 200,300 T400,300 T600,300 T800,300"/>
+    <path d="M0,330 Q100,300 200,330 T400,330 T600,330 T800,330" stroke-opacity=".3"/>
+  </g>
+  <text x="400" y="220" text-anchor="middle" fill="#fff" font-size="70" font-weight="700" letter-spacing="6">星野源</text>
+  <text x="400" y="270" text-anchor="middle" fill="#ffe8c2" font-size="26" font-weight="500" letter-spacing="10">LIVE TOUR 2026</text>
+</svg>

@@ -1382,6 +1382,14 @@ body.show-points .site-header [data-point]::before {
   white-space: nowrap;
 }
 
+/* overflow:hidden を持つ要素（PICK UPカード／公演日程リスト）は、注釈ラベルが
+   枠でクリップされて隠れてしまうため、ラベルを枠の内側上部に表示する */
+body.show-points .featured::before,
+body.show-points .perf-list::before {
+  top: 8px;
+  left: 8px;
+}
+
 /* 画面右端に近い注釈（左寄せで右へ伸びるもの）が切れないよう、
    モバイルでははみ出す場合に折り返す。ヘッダー分は上の指定が優先される */
 @media (max-width: 720px) {
