@@ -1189,7 +1189,19 @@ img { max-width: 100%; display: block; }
 
 .seat-row + .seat-row { border-top: 1px solid var(--line); }
 
-.seat-name { font-size: 1.4rem; font-weight: 500; min-width: 0; }
+/* 席写真サムネ */
+.seat-thumb {
+  flex: none;
+  width: 88px;
+  height: 62px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+}
+.seat-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+.seat-name { font-size: 1.4rem; font-weight: 500; min-width: 0; flex: 1; }
 .seat-name .seat-name-row { display: inline; }
 .seat-name .seat-note { display: block; font-size: 1.15rem; color: var(--text-dim); font-weight: 400; }
 
@@ -1218,6 +1230,24 @@ img { max-width: 100%; display: block; }
 .seat-row.is-soldout { background: rgba(255, 255, 255, .02); }
 .seat-row.is-soldout .seat-name,
 .seat-row.is-soldout .seat-price { color: var(--text-dim); }
+.seat-row.is-soldout .seat-thumb img { filter: grayscale(.5); opacity: .6; }
+
+/* 会場・席種マップ */
+.seat-map {
+  margin: 0 0 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #fff;
+}
+.seat-map img { width: 100%; height: auto; display: block; }
+.seat-map figcaption {
+  font-size: 1.2rem;
+  color: var(--text-sub);
+  background: var(--panel);
+  padding: 8px 12px;
+  border-top: 1px solid var(--line);
+}
 
 .price-disclaimer {
   margin: 12px 0 0;
@@ -1239,10 +1269,29 @@ img { max-width: 100%; display: block; }
 /* 来場者特典カード */
 .benefit-card {
   position: relative;
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
   background: linear-gradient(135deg, rgba(203, 10, 57, .14), rgba(10, 186, 181, .10));
   border: 1px solid rgba(255, 255, 255, .14);
   border-radius: var(--radius);
   padding: 20px 22px;
+}
+
+.benefit-card .benefit-img {
+  flex: none;
+  width: 230px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: #fff;
+}
+.benefit-card .benefit-img img { width: 100%; height: auto; display: block; }
+.benefit-card .benefit-body { flex: 1; min-width: 0; }
+
+@media (max-width: 600px) {
+  .benefit-card { flex-direction: column; gap: 14px; }
+  .benefit-card .benefit-img { width: 100%; }
 }
 
 .benefit-card .benefit-tag {

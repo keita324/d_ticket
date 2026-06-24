@@ -81,52 +81,53 @@ const EVENTS = [
         { label: "対象年齢", value: "3歳以上はチケットが必要です" },
         { label: "チケット", value: "電子チケット（d アカウントの登録が必要・無料）" },
       ],
-      /* 席種・料金。yen=目安価格、unit=販売単位、status: available / soldout */
+      /* 席種・料金。yen=目安価格、unit=販売単位、status: available / soldout、img=席写真 */
       priceNote: "表示価格はダイナミックプライシング適用前の目安です。最終価格は購入画面でご確認ください。",
+      seatMap: "images/biwako/map.jpg",
       seatGroups: [
         {
           title: "イス席・特典つきイス席",
           seats: [
-            { name: "イス席", yen: 7500, unit: "1名", status: "available", note: "スタンダードな指定イス席" },
-            { name: "ポムポムプリン オリジナル特典つきイス席", yen: 9100, unit: "1名", status: "available", note: "G/Hエリア確約・限定特典つき" },
+            { name: "イス席", yen: 7500, unit: "1名", status: "available", note: "スタンダードな指定イス席", img: "images/biwako/isu.jpg" },
+            { name: "ポムポムプリン オリジナル特典つきイス席", yen: 9100, unit: "1名", status: "available", note: "G/Hエリア確約・限定特典つき", img: "images/biwako/isu.jpg" },
           ],
         },
         {
           title: "湖畔・眺望席",
           seats: [
-            { name: "2Fテラス眺望席", yen: 16000, unit: "1名", status: "available", note: "高所からゆったり・お茶＆お菓子つき" },
-            { name: "台船正面席", yen: 13000, unit: "1名", status: "available", note: "打上台船を正面に・お茶＆お菓子つき" },
-            { name: "台船正面席（ペア）", yen: 26000, unit: "2名1組", status: "soldout", note: "" },
-            { name: "プレミアムS席", yen: 12500, unit: "1名", status: "soldout", note: "湖畔最前列" },
-            { name: "プレミアムA席", yen: 10500, unit: "1名", status: "soldout", note: "湖畔2列目" },
-            { name: "ラグーナ レイクサイドイス席", yen: 8500, unit: "1名", status: "soldout", note: "水際に近いエリア" },
+            { name: "2Fテラス眺望席", yen: 16000, unit: "1名", status: "available", note: "高所からゆったり・お茶＆お菓子つき", img: "images/biwako/terrace.jpg" },
+            { name: "台船正面席", yen: 13000, unit: "1名", status: "available", note: "打上台船を正面に・お茶＆お菓子つき", img: "images/biwako/daisen.jpg" },
+            { name: "台船正面席（ペア）", yen: 26000, unit: "2名1組", status: "soldout", note: "", img: "images/biwako/daisen.jpg" },
+            { name: "プレミアムS席", yen: 12500, unit: "1名", status: "soldout", note: "湖畔最前列", img: "images/biwako/premium.jpg" },
+            { name: "プレミアムA席", yen: 10500, unit: "1名", status: "soldout", note: "湖畔2列目", img: "images/biwako/premium.jpg" },
+            { name: "ラグーナ レイクサイドイス席", yen: 8500, unit: "1名", status: "soldout", note: "水際に近いエリア", img: "images/biwako/lakeside.jpg" },
           ],
         },
         {
           title: "ペア・グループ・特別席",
           seats: [
-            { name: "カップルシート", yen: 28000, unit: "2名1組", status: "soldout", note: "マリーナエリア前方3列" },
-            { name: "2名桟敷席", yen: 26000, unit: "2名1組", status: "soldout", note: "" },
-            { name: "6名桟敷席", yen: 48000, unit: "6名1組", status: "soldout", note: "" },
-            { name: "5名床席（ところ）", yen: 70000, unit: "5名1組", status: "available", note: "飲み放題つき" },
-            { name: "エグゼクティブ席", yen: 29000, unit: "1名", status: "soldout", note: "リクライニング・飲み放題・専用トイレ" },
-            { name: "マヂかシート", yen: 112000, unit: "2名1組", status: "soldout", note: "桟橋席・リクライニング・専用トイレ" },
-            { name: "ラグジュアリーシート", yen: 115000, unit: "2名1組", status: "soldout", note: "プレミアムエリア・ビールサービス" },
+            { name: "カップルシート", yen: 28000, unit: "2名1組", status: "soldout", note: "マリーナエリア前方3列", img: "images/biwako/couple.jpg" },
+            { name: "2名桟敷席", yen: 26000, unit: "2名1組", status: "soldout", note: "", img: "images/biwako/sajiki.jpg" },
+            { name: "6名桟敷席", yen: 48000, unit: "6名1組", status: "soldout", note: "", img: "images/biwako/sajiki.jpg" },
+            { name: "5名床席（ところ）", yen: 70000, unit: "5名1組", status: "available", note: "飲み放題つき", img: "images/biwako/toko.jpg" },
+            { name: "エグゼクティブ席", yen: 29000, unit: "1名", status: "soldout", note: "リクライニング・飲み放題・専用トイレ", img: "images/biwako/executive.jpg" },
+            { name: "マヂかシート", yen: 112000, unit: "2名1組", status: "soldout", note: "桟橋席・リクライニング・専用トイレ", img: "images/biwako/madika.jpg" },
+            { name: "ラグジュアリーシート", yen: 115000, unit: "2名1組", status: "soldout", note: "プレミアムエリア・ビールサービス", img: "images/biwako/luxury.jpg" },
           ],
         },
         {
           title: "カメラ撮影席",
           seats: [
-            { name: "カメラ指定席", yen: 18000, unit: "1名", status: "available", note: "約1m四方・三脚使用可" },
-            { name: "カメラエリア入場券（なぎさ公園）", yen: 15400, unit: "1名", status: "soldout", note: "三脚使用可" },
+            { name: "カメラ指定席", yen: 18000, unit: "1名", status: "available", note: "約1m四方・三脚使用可", img: "images/biwako/camera.jpg" },
+            { name: "カメラエリア入場券（なぎさ公園）", yen: 15400, unit: "1名", status: "soldout", note: "三脚使用可", img: "images/biwako/camera.jpg" },
           ],
         },
         {
           title: "なぎさ公園 エリア内自由（西側）",
           seats: [
-            { name: "ファストパス入場券", yen: 6000, unit: "1名", status: "available", note: "優先入場" },
-            { name: "一般エリア入場券", yen: 5000, unit: "1名", status: "available", note: "" },
-            { name: "車椅子＆同伴者エリア入場券", yen: 13200, unit: "2名1組", status: "soldout", note: "" },
+            { name: "ファストパス入場券", yen: 6000, unit: "1名", status: "available", note: "優先入場", img: "images/biwako/nagisa.jpg" },
+            { name: "一般エリア入場券", yen: 5000, unit: "1名", status: "available", note: "", img: "images/biwako/nagisa.jpg" },
+            { name: "車椅子＆同伴者エリア入場券", yen: 13200, unit: "2名1組", status: "soldout", note: "", img: "images/biwako/nagisa.jpg" },
           ],
         },
       ],
@@ -142,6 +143,7 @@ const EVENTS = [
       /* コラボ特典 */
       benefit: {
         title: "ポムポムプリン オリジナル特典つきイス席",
+        img: "images/biwako/pompompurin.jpg",
         lead: "対象席種をご購入の方全員に、チケット1枚につき1個プレゼント",
         items: [
           "もれなくもらえる！びわ湖大花火大会限定「ポムポムプリンフォンタブ」（オリジナル絵柄）",

@@ -146,8 +146,12 @@ function renderRichDetail(ev) {
                 ? `<span class="seat-stat out">完売</span>`
                 : `<span class="seat-stat ok">受付中</span>`;
               const unit = s.unit ? `<span class="seat-unit">/ ${s.unit}</span>` : "";
+              const thumb = s.img
+                ? `<div class="seat-thumb"><img src="${s.img}" alt="${s.name}" loading="lazy" decoding="async" onerror="this.closest('.seat-thumb').remove()"></div>`
+                : "";
               return `
             <div class="seat-row ${out ? "is-soldout" : ""}">
+              ${thumb}
               <div class="seat-name">
                 <span class="seat-name-row">${s.name} ${stat}</span>
                 ${s.note ? `<span class="seat-note">${s.note}</span>` : ""}
@@ -188,13 +192,16 @@ function renderRichDetail(ev) {
     <section class="section">
       <div class="section-head"><h2>来場者特典</h2></div>
       <div class="benefit-card">
-        <span class="benefit-tag">&#127873; 特典</span>
-        <h3>${dt.benefit.title}</h3>
-        <p class="benefit-lead">${dt.benefit.lead}</p>
-        <ul class="benefit-list">
-          ${dt.benefit.items.map((i) => `<li>${i}</li>`).join("")}
-        </ul>
-        <p class="benefit-note">${dt.benefit.note}</p>
+        ${dt.benefit.img ? `<div class="benefit-img"><img src="${dt.benefit.img}" alt="${dt.benefit.title}" loading="lazy" decoding="async"></div>` : ""}
+        <div class="benefit-body">
+          <span class="benefit-tag">&#127873; 特典</span>
+          <h3>${dt.benefit.title}</h3>
+          <p class="benefit-lead">${dt.benefit.lead}</p>
+          <ul class="benefit-list">
+            ${dt.benefit.items.map((i) => `<li>${i}</li>`).join("")}
+          </ul>
+          <p class="benefit-note">${dt.benefit.note}</p>
+        </div>
       </div>
     </section>`
     : "";
@@ -231,6 +238,16 @@ function renderRichDetail(ev) {
             <h2>席種・料金・申込状況</h2>
             <span class="sub">価格は目安（ダイナミックプライシング）</span>
           </div>
+          ${
+            dt.seatMap
+              ? `<figure class="seat-map">
+                   <a href="${dt.seatMap}" target="_blank" rel="noopener">
+                     <img src="${dt.seatMap}" alt="会場・席種マップ" loading="lazy" decoding="async">
+                   </a>
+                   <figcaption>&#128205; 会場・席種マップ（タップで拡大）</figcaption>
+                 </figure>`
+              : ""
+          }
           ${seatHTML}
           ${dt.priceNote ? `<p class="price-disclaimer">&#9888;&#65039; ${dt.priceNote}</p>` : ""}
           ${externalHTML}
